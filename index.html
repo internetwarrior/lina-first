@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+        }
+        ul {
+            list-style-type: none;
+        }
+        .card div {
+            outline: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            min-width: 300px;
+            min-height: 300px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .card div button {
+            all: unset;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            margin: auto;
+        }
+        .card-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .card {
+            margin: auto;
+        }
+        .card div .done-button {
+            width: 100%;
+            background-color: #FF6347;
+            border-radius: 0px 0px 16px 16px;
+            padding: 4px;
+            text-align: center;
+            margin: 0;
+            padding: 4px 0;
+            color: white;
+        }
+        .card div h1 {
+            text-align: end;
+            font-size: 64px;
+            font-weight: lighter;
+            color: rgba(0, 0, 0, 0.3);
+        }
+        header {
+            margin-bottom: 20px;
+        }
+        #my-id {
+            margin-left: 20px;
+    animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+    </style>
+</head>
+<body>
+    <br>
+    <header style="display: flex; align-items: center; gap: 20px;">
+        <img id="my-id" style="height: 64px; width: 64px;" src="logo.png" alt="">
+        <h1>Lina - Асститент</h1>
+    </header>  
+    <hr>
+    <br>
+     
+    <main>
+        <div class="container">
+            <ul class="card-list">
+                <li class="card">
+                    <div>
+                        <h1>1</h1>
+                        <button class="play-button" data-audio="1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="124" height="124" viewBox="0 0 6 7" id="play">
+                                <g id="Page-1" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1">
+                                    <g id="Dribbble-Light-Preview" fill="#EBB25B" transform="translate(-347 -3766)">
+                                        <g id="icons" transform="translate(56 160)">
+                                            <path id="play-[#1003]" d="M296.495 3608.573l-3.994-2.43c-.669-.408-1.501.107-1.501.926v4.862c0 .82.832 1.333 1.5.927l3.995-2.43c.673-.41.673-1.445 0-1.855"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </button>
+                        <button onclick="stopAudio()" class="done-button">Сделано!</button>
+
+                    </div>
+                </li>
+
+                <li class="card">
+                    <div>
+                        <h1>2</h1>
+                        <button class="play-button" data-audio="2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="124" height="124" viewBox="0 0 6 7" id="play">
+                                <g id="Page-1" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1">
+                                    <g id="Dribbble-Light-Preview" fill="#EBB25B" transform="translate(-347 -3766)">
+                                        <g id="icons" transform="translate(56 160)">
+                                            <path id="play-[#1003]" d="M296.495 3608.573l-3.994-2.43c-.669-.408-1.501.107-1.501.926v4.862c0 .82.832 1.333 1.5.927l3.995-2.43c.673-.41.673-1.445 0-1.855"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </svg>
+                        </button>
+                        <button onclick="stopAudio()" class="done-button">Сделано!</button>
+
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Single audio player (hidden) -->
+        <audio id="audioPlayer"></audio>
+
+        <script>const audioFiles = {
+            1: [
+                '1/audio1.mp3',
+                '1/audio2.mp3',
+                '1/audio3.mp3',
+                '1/audio4.mp3',
+                '1/audio5.mp3'
+            ],
+            2: [
+                '2/audio1.mp3',
+                '2/audio2.mp3',
+                '2/audio3.mp3',
+                '2/audio4.mp3',
+                '2/audio5.mp3'
+            ]
+        };
+        
+        document.querySelectorAll('.play-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const audioNumber = button.getAttribute('data-audio');
+                playAudioSequence(audioNumber);
+            });
+        });
+        
+        const audioPlayer = document.getElementById('audioPlayer');
+        let currentIndex = 0;
+        
+        function playAudioSequence(audioNumber) {
+            let files = [...audioFiles[audioNumber]];  // Copy array to avoid modifying original
+            files = shuffleArray(files);  // Shuffle the files randomly
+            currentIndex = 0;
+        
+            function playNext() {
+                if (currentIndex < files.length) {
+                    audioPlayer.src = files[currentIndex];
+                    audioPlayer.play();
+                    currentIndex++;
+        
+                    // Set timeout for 4 seconds after audio ends
+                    audioPlayer.onended = () => setTimeout(playNext, 4000);
+                } else {
+                    currentIndex = 0;  // Reset index for the next play sequence
+                }
+            }
+        
+            playNext(); // Start playing the sequence
+        }
+        
+        // Shuffle function to randomize array order
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+        </script>
+       <audio id="bgMusic" src="bg.mp3" autoplay loop volume="0.05"></audio>
+
+       <script>
+           document.getElementById('bgMusic').volume = 0.05;
+
+           function stopAudio() {
+    isPlaying = false;
+    audioPlayer.pause();
+    audioPlayer.src = '';  // Stop the audio and clear the source
+}
+
+       </script>
+    </main>
+</body>
+</html>
