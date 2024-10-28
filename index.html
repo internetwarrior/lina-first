@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Lina - assistant</title>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -11,6 +11,25 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Open Sans', sans-serif;
+            /* outline: 1px solid limegreen; */
+        }
+        header{
+            position: fixed;
+            left: 0;
+        top: 0;
+        
+        
+        }
+
+
+        main{
+            height: 100vh;
+            padding: 0px 150px;
+        }
+        .container{
+            overflow-y: scroll;
+            width: 100%;
+            padding: 10px;
         }
         ul {
             list-style-type: none;
@@ -25,6 +44,9 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+        .orders{
+            align-items: center;
         }
         .card div button {
             all: unset;
@@ -73,18 +95,81 @@
         transform: rotate(360deg);
     }
 }
+
+main{
+    display: flex;
+    padding-top: 64px;
+
+}
+.container-main{
+    width: 100%;
+    
+}
     </style>
 </head>
-<body>
-    <br>
+<body>  
     <header style="display: flex; align-items: center; gap: 20px;">
         <img id="my-id" style="height: 64px; width: 64px;" src="logo.png" alt="">
         <h1>Lina - Асститент</h1>
     </header>  
-    <hr>
-    <br>
-     
+
+
+
     <main>
+      
+<style>
+    .container-main div h1{
+        font-size: 400px;
+    }
+    .container-main div{
+       
+    }
+    .container-main div div{
+        display: flex;
+        margin: auto;
+    }
+    .controll-buttons{
+        justify-content: space-around;
+    }
+    .controll-buttons button{
+        all: unset;
+        padding: 10px 20px;
+        font-size: 18px;
+        font-weight: 700;
+        background-color: #EBB25B;
+    }
+    .orders h2{
+font-size: 64px;
+margin-left: 20px;
+padding: 0px 20px;
+
+    }
+    .reset-button {
+        background-color:#FF6347 !important;
+        color: white !important;
+    }
+    .current-order {
+        margin:auto;
+    }
+    
+</style>
+        <div class="container-main">
+            <div>
+
+                <h1 class="current-order">1</h1>
+                <div class="controll-buttons">
+                    <button class="reset-button">Сбросить</button>
+                    <button>Следующий</button>
+                   
+                </div>
+                <div class="orders">
+                    Следущющие:  <div></div>
+                    <h2>2</h2>
+                    <h2>3</h2>
+                    <h2>4</h2>
+                </div>
+            </div>
+        </div>
         <div class="container">
             <ul class="card-list">
                 <li class="card">
@@ -123,7 +208,7 @@
                         <button onclick="stopAudio()" class="done-button">Сделано!</button>
 
                     </div>
-                </li>
+                </li> 
             </ul>
         </div>
 
@@ -199,6 +284,34 @@
 }
 
        </script>
+<script>
+    const resetButton = document.querySelector('.controll-buttons button:first-child');
+    const nextButton = document.querySelector('.controll-buttons button:last-child');
+    const currentOrderDisplay = document.querySelector('.current-order');
+    const upcomingOrders = document.querySelectorAll('.orders h2');
+    let currentOrder = 1;
+
+    resetButton.addEventListener('click', () => {
+        currentOrder = 1;
+        currentOrderDisplay.textContent = currentOrder;
+        upcomingOrders.forEach((el, idx) => {
+            el.textContent = currentOrder + idx + 1;
+        });
+    });
+
+    nextButton.addEventListener('click', () => {
+        currentOrder++;
+        currentOrderDisplay.textContent = currentOrder;
+
+        const nextOrders = [currentOrder + 1, currentOrder + 2, currentOrder + 3];
+        upcomingOrders.forEach((el, idx) => {
+            el.textContent = nextOrders[idx];
+        });
+    });
+</script>
+
+
+
     </main>
 </body>
 </html>
